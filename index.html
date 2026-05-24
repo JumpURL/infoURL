@@ -4,31 +4,46 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta name="robots" content="noindex, nofollow">
-  <title>DMM.com への移動確認</title>
+  <title>外部サイトへの移動確認</title>
+
+  <!-- ==========================================
+       X (Twitter) カード設定：固有キーワード完全排除
+       ========================================== -->
+  <meta name="twitter:card" content="summary">
+  
+  <!-- ポスト内のカードに表示される見出し -->
+  <meta property="og:title" content="詳細を確認する">
+  
+  <!-- ポスト内のカードに表示される概要文 -->
+  <meta property="og:description" content="感想の作品をチェック">
+  
+  <!-- あなたのGitHub PagesのトップURL（組織名とリポジトリ名に合わせてください） -->
+  <meta property="og:url" content="https://JumpURL.github.io/【あなたのリポジトリ名】/">
+
   <style>
     body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; display: flex; justify-content: center; align-items: center; height: 100vh; margin: 0; background-color: #f5f8fa; }
-    .card { background: white; padding: 30px; border-radius: 12px; box-shadow: 0 4px 12px rgba(0,0,0,0.1); text-align: center; max-width: 440px; width: 90%; }
-    h1 { font-size: 18px; color: #14171a; margin-bottom: 12px; }
-    p { font-size: 14px; color: #657786; margin-bottom: 24px; line-height: 1.6; }
-    .btn { display: inline-block; background-color: #1da1f2; color: white; text-decoration: none; padding: 14px 32px; border-radius: 9999px; font-weight: bold; font-size: 15px; transition: background 0.2s; }
-    .btn:hover { background-color: #1a91da; }
+    .card { background: white; padding: 40px 30px; border-radius: 16px; box-shadow: 0 4px 20px rgba(0,0,0,0.08); text-align: center; max-width: 440px; width: 90%; }
+    .icon-area { font-size: 48px; margin-bottom: 16px; }
+    h1 { font-size: 20px; color: #14171a; margin-bottom: 12px; font-weight: bold; }
+    p { font-size: 14px; color: #657786; margin-bottom: 28px; line-height: 1.6; }
+    .btn { display: inline-block; background-color: #000000; color: white; text-decoration: none; padding: 14px 40px; border-radius: 9999px; font-weight: bold; font-size: 15px; transition: background 0.2s; box-shadow: 0 4px 12px rgba(0,0,0,0.1); }
+    .btn:hover { background-color: #2b2b2b; }
   </style>
 </head>
 <body>
+
   <div class="card">
-    <h1>DMM.com のサイトへ移動します</h1>
-    <p>これより外部サイト（DMM.com）へ移動します。<br>よろしければ、以下のボタンをクリックしてください。</p>
-    <!-- 手動クリック用のボタン。リダイレクト機能はオフ -->
-    <a id="jump-btn" href="#" rel="noopener noreferrer nofollow" class="btn">DMM.com を開く</a>
+    <div class="icon-area">🔗</div>
+    <!-- ご指定のテキストへ変更 -->
+    <h1>掲載作品のサイトへ移動します</h1>
+    <p>これより外部のWebサイトへ移動します。<br>以下のボタンをクリックして進んでください。</p>
+    <a id="jump-btn" href="#" rel="noopener noreferrer nofollow" class="btn">ページを開く</a>
   </div>
 
   <script>
-    // URLの ?target= 以降のパラメータを解析
     const urlParams = new URLSearchParams(window.location.search);
     const targetUrl = urlParams.get('target');
-    
     if (targetUrl) {
-      // 届いたDMMアフィリURLをそのままボタンに埋め込む
       document.getElementById('jump-btn').href = targetUrl;
     } else {
       document.body.innerHTML = '<div class="card"><h1>エラー</h1><p>URLが正しく指定されていません。</p></div>';
