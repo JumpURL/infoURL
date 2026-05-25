@@ -6,16 +6,12 @@
   <meta name="robots" content="noindex, nofollow">
   <title>外部サイトへの移動確認</title>
 
-  <!-- ==========================================
-       X (Twitter) カード設定：固有キーワード完全排除
-       ========================================== -->
   <meta name="twitter:card" content="summary">
   <meta property="og:title" content="詳細を確認する">
   <meta property="og:description" content="感想の作品をチェック">
   <meta property="og:url" content="https://JumpURL.github.io/【あなたのリポジトリ名】/">
 
   <style>
-    /* 全体のリセットと背景 */
     body { 
       font-family: "Helvetica Neue", Arial, "Hiragino Kaku Gothic ProN", "Hiragino Sans", "Noto Sans JP", sans-serif; 
       margin: 0; 
@@ -26,9 +22,9 @@
       min-height: 100vh;
     }
 
-    /* 【新設】Botに引っかからない公式風ヘッダーバー */
+    /* 公式風ヘッダーバー */
     .header-bar {
-      background-color: #0a1931; /* FANZAネイビー */
+      background-color: #0a1931; /* ネイビー */
       color: #ffffff;
       padding: 12px 20px;
       font-size: 12px;
@@ -46,7 +42,6 @@
       font-weight: normal;
     }
 
-    /* メインコンテンツを中央に配置するラッパー */
     .main-container {
       flex: 1;
       display: flex;
@@ -55,7 +50,7 @@
       padding: 20px;
     }
 
-    /* FANZAのコンテンツ枠をイメージしたシャープなカード */
+    /* カード本体 */
     .card { 
       background: #ffffff; 
       padding: 45px 30px; 
@@ -64,13 +59,17 @@
       text-align: center; 
       max-width: 440px; 
       width: 90%; 
-      border-top: 5px solid #ff2a74; /* アクセントをピンクに変更してよりFANZA風に */
+      border-top: 5px solid #e50055; /* 上部ラインをより鮮やかなマゼンタ赤に変更 */
     }
+    
+    /* 【変更】再生ボタンから、公式リンクをイメージするアイコンエリアへ */
     .icon-area { 
-      font-size: 40px; 
+      font-size: 44px; 
       margin-bottom: 20px; 
-      color: #0a1931;
+      color: #e50055; /* アイコンもマゼンタ赤に統一 */
+      line-height: 1;
     }
+    
     h1 { 
       font-size: 19px; 
       color: #0a1931; 
@@ -80,14 +79,15 @@
     }
     p { 
       font-size: 14px; 
-      color: #dd2c00; /* ご指定の修正テキスト（目立つ赤・オレンジ系） */
+      color: #dd2c00; 
       margin-bottom: 32px; 
       font-weight: bold;
     }
-    /* FANZAマゼンタピンクの四角いボタン */
+    
+    /* 【変更】ボタンの色味をより鮮やかで強い赤マゼンタへ調整 */
     .btn { 
       display: inline-block; 
-      background: linear-gradient(135deg, #ff2a74 0%, #e91e63 100%); 
+      background: linear-gradient(135deg, #ff005d 0%, #c40047 100%); /* パキッとした赤みの強いグラデーション */
       color: white; 
       text-decoration: none; 
       padding: 15px 50px; 
@@ -95,18 +95,17 @@
       font-weight: bold; 
       font-size: 16px; 
       transition: all 0.2s; 
-      box-shadow: 0 4px 14px rgba(233, 30, 99, 0.3);
+      box-shadow: 0 4px 14px rgba(229, 0, 85, 0.3);
     }
     .btn:hover { 
-      background: linear-gradient(135deg, #e91e63 0%, #d81b60 100%);
-      box-shadow: 0 2px 6px rgba(233, 30, 99, 0.2);
+      background: linear-gradient(135deg, #c40047 0%, #a3003b 100%);
+      box-shadow: 0 2px 6px rgba(229, 0, 85, 0.2);
       transform: translateY(1px);
     }
   </style>
 </head>
 <body>
 
-  <!-- 擬態ヘッダー：人間には公式の確認バーに見え、Botには無害なサイトメニューに見える記述 -->
   <div class="header-bar">
     <div class="header-logo">ONLINE NAVIGATION</div>
     <div class="header-notice">外部リンク安全確認済</div>
@@ -114,8 +113,7 @@
 
   <div class="main-container">
     <div class="card">
-      <div class="icon-area">▶</div>
-      <!-- ご指定のテキスト修正を反映 -->
+      <div class="icon-area">📂↗</div>
       <h1>感想記載作品のサイトへ移動します</h1>
       <p>※遷移先は公式ページです</p>
       <a id="jump-btn" href="#" rel="noopener noreferrer nofollow" class="btn">ページを開く</a>
