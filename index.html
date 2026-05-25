@@ -22,9 +22,9 @@
       min-height: 100vh;
     }
 
-    /* 公式風ヘッダーバー */
+    /* ページ最上部の公式風ナビゲーションバー（Bot対策用） */
     .header-bar {
-      background-color: #0a1931; /* ネイビー */
+      background-color: #0a1931; 
       color: #ffffff;
       padding: 12px 20px;
       font-size: 12px;
@@ -50,44 +50,66 @@
       padding: 20px;
     }
 
-    /* カード本体 */
+    /* 【変更】カード本体：overflow:hiddenで上部ヘッダーの角を丸みにフィットさせる */
     .card { 
       background: #ffffff; 
-      padding: 45px 30px; 
       border-radius: 8px; 
       box-shadow: 0 4px 24px rgba(10, 25, 49, 0.08); 
       text-align: center; 
       max-width: 440px; 
       width: 90%; 
-      border-top: 5px solid #e50055; /* 上部ラインをより鮮やかなマゼンタ赤に変更 */
+      overflow: hidden;
     }
-    
-    /* 【変更】再生ボタンから、公式リンクをイメージするアイコンエリアへ */
-    .icon-area { 
-      font-size: 44px; 
-      margin-bottom: 20px; 
-      color: #e50055; /* アイコンもマゼンタ赤に統一 */
-      line-height: 1;
+
+    /* 【新設】太い赤マゼンタのヘッダーエリア */
+    .card-header-area {
+      background-color: #e50055; /* FANZA風の赤マゼンタ */
+      color: #ffffff;
+      padding: 16px 20px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      gap: 10px; /* テキストとフォルダマークの間隔 */
     }
-    
-    h1 { 
-      font-size: 19px; 
-      color: #0a1931; 
-      margin-bottom: 14px; 
+
+    /* ヘッダーエリア内に入れた見出しテキスト */
+    .card-header-area h1 {
+      font-size: 16px; 
+      color: #ffffff; /* 文字色は白にして視認性を確保 */
+      margin: 0;
       font-weight: bold; 
       line-height: 1.4;
     }
+
+    /* 見出しの右側のフォルダマーク */
+    .folder-icon {
+      font-size: 18px;
+      line-height: 1;
+    }
+
+    /* カード内部のコンテンツ余白 */
+    .card-body {
+      padding: 40px 30px;
+    }
+    
+    .icon-area { 
+      font-size: 44px; 
+      margin-bottom: 20px; 
+      color: #e50055; 
+      line-height: 1;
+    }
+    
     p { 
       font-size: 14px; 
       color: #dd2c00; 
-      margin-bottom: 32px; 
+      margin: 0 0 32px 0; 
       font-weight: bold;
     }
     
-    /* 【変更】ボタンの色味をより鮮やかで強い赤マゼンタへ調整 */
+    /* 遷移ボタン */
     .btn { 
       display: inline-block; 
-      background: linear-gradient(135deg, #ff005d 0%, #c40047 100%); /* パキッとした赤みの強いグラデーション */
+      background: linear-gradient(135deg, #ff005d 0%, #c40047 100%); 
       color: white; 
       text-decoration: none; 
       padding: 15px 50px; 
@@ -113,10 +135,18 @@
 
   <div class="main-container">
     <div class="card">
-      <div class="icon-area">📂↗</div>
-      <h1>感想記載作品のサイトへ移動します</h1>
-      <p>※遷移先は公式ページです</p>
-      <a id="jump-btn" href="#" rel="noopener noreferrer nofollow" class="btn">ページを開く</a>
+      
+      <div class="card-header-area">
+        <h1>感想記載作品のサイトへ移動します</h1>
+        <span class="folder-icon">📁</span>
+      </div>
+
+      <div class="card-body">
+        <div class="icon-area">📂↗</div>
+        <p>※遷移先は公式ページです</p>
+        <a id="jump-btn" href="#" rel="noopener noreferrer nofollow" class="btn">ページを開く</a>
+      </div>
+
     </div>
   </div>
 
@@ -126,7 +156,7 @@
     if (targetUrl) {
       document.getElementById('jump-btn').href = targetUrl;
     } else {
-      document.body.innerHTML = '<div class="main-container"><div class="card"><h1>エラー</h1><p>URLが正しく指定されていません。</p></div></div>';
+      document.body.innerHTML = '<div class="main-container"><div class="card"><div class="card-header-area"><h1>エラー</h1></div><div class="card-body"><p>URLが正しく指定されていません。</p></div></div></div>';
     }
   </script>
 </body>
