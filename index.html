@@ -6,6 +6,9 @@
   <meta name="robots" content="noindex, nofollow">
   <title>外部サイトへの移動確認</title>
 
+  <!-- ==========================================
+       X (Twitter) カード設定：固有キーワード完全排除
+       ========================================== -->
   <meta name="twitter:card" content="summary">
   <meta property="og:title" content="詳細を確認する">
   <meta property="og:description" content="感想の作品をチェック">
@@ -22,9 +25,9 @@
       min-height: 100vh;
     }
 
-    /* ページ最上部の公式風ナビゲーションバー（Bot対策用） */
+    /* 上部ナビゲーションバー（Bot対策） */
     .header-bar {
-      background-color: #0a1931; 
+      background-color: #0a1931; /* FANZA共通の深いネイビー */
       color: #ffffff;
       padding: 12px 20px;
       font-size: 12px;
@@ -50,78 +53,77 @@
       padding: 20px;
     }
 
-    /* 【変更】カード本体：overflow:hiddenで上部ヘッダーの角を丸みにフィットさせる */
+    /* ウインドウ本体 */
     .card { 
       background: #ffffff; 
-      border-radius: 8px; 
-      box-shadow: 0 4px 24px rgba(10, 25, 49, 0.08); 
+      border-radius: 6px; 
+      box-shadow: 0 4px 24px rgba(10, 25, 49, 0.1); 
       text-align: center; 
       max-width: 440px; 
       width: 90%; 
       overflow: hidden;
     }
 
-    /* 【新設】太い赤マゼンタのヘッダーエリア */
+    /* 【修正】FANZA公式のディープ・レッド（#cc0000）を採用したヘッダー */
     .card-header-area {
-      background-color: #e50055; /* FANZA風の赤マゼンタ */
+      background-color: #cc0000; 
       color: #ffffff;
       padding: 16px 20px;
       display: flex;
       justify-content: center;
       align-items: center;
-      gap: 10px; /* テキストとフォルダマークの間隔 */
+      gap: 12px; 
     }
 
-    /* ヘッダーエリア内に入れた見出しテキスト */
     .card-header-area h1 {
       font-size: 16px; 
-      color: #ffffff; /* 文字色は白にして視認性を確保 */
+      color: #ffffff; 
       margin: 0;
       font-weight: bold; 
       line-height: 1.4;
     }
 
-    /* 見出しの右側のフォルダマーク */
-    .folder-icon {
-      font-size: 18px;
-      line-height: 1;
+    /* 【新設】デザインを完全に統一するための「白抜きフォルダー」アイコン（SVG） */
+    .white-folder-icon {
+      width: 20px;
+      height: 20px;
+      fill: none;
+      stroke: #ffffff;
+      stroke-width: 2;
+      stroke-linecap: round;
+      stroke-linejoin: round;
+      display: inline-block;
+      flex-shrink: 0;
     }
 
-    /* カード内部のコンテンツ余白 */
+    /* コンテンツエリア（中央の不要なフォルダを削除し、余白を美しく調整） */
     .card-body {
-      padding: 40px 30px;
-    }
-    
-    .icon-area { 
-      font-size: 44px; 
-      margin-bottom: 20px; 
-      color: #e50055; 
-      line-height: 1;
+      padding: 50px 30px;
     }
     
     p { 
-      font-size: 14px; 
-      color: #dd2c00; 
-      margin: 0 0 32px 0; 
+      font-size: 15px; 
+      color: #333333; /* 文字としての読みやすさを重視したダークグレー */
+      margin: 0 0 35px 0; 
       font-weight: bold;
     }
     
-    /* 遷移ボタン */
+    /* 【修正】ボタンもFANZA公式の情熱的な赤のトーンに準拠 */
     .btn { 
       display: inline-block; 
-      background: linear-gradient(135deg, #ff005d 0%, #c40047 100%); 
+      background: linear-gradient(135deg, #e60000 0%, #b30000 100%); /* 力強い赤のグラデーション */
       color: white; 
       text-decoration: none; 
-      padding: 15px 50px; 
+      padding: 15px 60px; 
       border-radius: 4px; 
       font-weight: bold; 
       font-size: 16px; 
       transition: all 0.2s; 
-      box-shadow: 0 4px 14px rgba(229, 0, 85, 0.3);
+      box-shadow: 0 4px 14px rgba(204, 0, 0, 0.3);
     }
     .btn:hover { 
-      background: linear-gradient(135deg, #c40047 0%, #a3003b 100%);
-      box-shadow: 0 2px 6px rgba(229, 0, 85, 0.2);
+      background: linear-gradient(135deg, #b30000 0%, #990000 100%);
+      box-shadow: 0 2px 6px rgba(204, 0, 0, 0.2);
       transform: translateY(1px);
     }
   </style>
@@ -136,13 +138,17 @@
   <div class="main-container">
     <div class="card">
       
+      <!-- ウインドウ上部ヘッダー（テキスト ＋ 自作の白抜きフォルダアイコン） -->
       <div class="card-header-area">
         <h1>感想記載作品のサイトへ移動します</h1>
-        <span class="folder-icon">📁</span>
+        <!-- 白抜きのフォルダーマークを描画するコード -->
+        <svg class="white-folder-icon" viewBox="0 0 24 24">
+          <path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z"></path>
+        </svg>
       </div>
 
+      <!-- 中央エリア：無駄なアイコンを削り、洗練されたレイアウトへ -->
       <div class="card-body">
-        <div class="icon-area">📂↗</div>
         <p>※遷移先は公式ページです</p>
         <a id="jump-btn" href="#" rel="noopener noreferrer nofollow" class="btn">ページを開く</a>
       </div>
