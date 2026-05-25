@@ -155,9 +155,23 @@
 
   <script>
     const urlParams = new URLSearchParams(window.location.search);
-    const targetUrl = urlParams.get('target');
-    if (targetUrl) {
-      document.getElementById('jump-btn').href = targetUrl;
+    const targetParam = urlParams.get('target');
+    
+    if (targetParam) {
+      try {
+        /* 【新設】Base64で暗号化されたURLを安全に復号（元に戻す）処理 */
+        const decodedUrl = decodeURIComponent(atob(targetParam));
+        
+        /* 復号したURLが正しい形式（httpから始まる）かチェック */
+        if (decodedUrl.startsWith('http')) {
+          document.getElementById('jump-btn').href = decodedUrl;
+        } else {
+          throw new Error('Invalid URL');
+        }
+      } catch (e) {
+        /* 万が一解読に失敗した場合はエラー画面を表示 */
+        document.body.innerHTML = '<div class="main-container"><div class="card"><div class="card-header-area"><h1>エラー</h1></div><div class="card-body"><p>URLの解析に失敗しました。</p></div></div></div>';
+      }
     } else {
       document.body.innerHTML = '<div class="main-container"><div class="card"><div class="card-header-area"><h1>エラー</h1></div><div class="card-body"><p>URLが正しく指定されていません。</p></div></div></div>';
     }
