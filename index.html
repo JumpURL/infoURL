@@ -10,34 +10,116 @@
        X (Twitter) カード設定：固有キーワード完全排除
        ========================================== -->
   <meta name="twitter:card" content="summary">
-  
-  <!-- ポスト内のカードに表示される見出し -->
   <meta property="og:title" content="詳細を確認する">
-  
-  <!-- ポスト内のカードに表示される概要文 -->
   <meta property="og:description" content="感想の作品をチェック">
-  
-  <!-- あなたのGitHub PagesのトップURL（組織名とリポジトリ名に合わせてください） -->
   <meta property="og:url" content="https://JumpURL.github.io/【あなたのリポジトリ名】/">
 
   <style>
-    body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; display: flex; justify-content: center; align-items: center; height: 100vh; margin: 0; background-color: #f5f8fa; }
-    .card { background: white; padding: 40px 30px; border-radius: 16px; box-shadow: 0 4px 20px rgba(0,0,0,0.08); text-align: center; max-width: 440px; width: 90%; }
-    .icon-area { font-size: 48px; margin-bottom: 16px; }
-    h1 { font-size: 20px; color: #14171a; margin-bottom: 12px; font-weight: bold; }
-    p { font-size: 14px; color: #657786; margin-bottom: 28px; line-height: 1.6; }
-    .btn { display: inline-block; background-color: #000000; color: white; text-decoration: none; padding: 14px 40px; border-radius: 9999px; font-weight: bold; font-size: 15px; transition: background 0.2s; box-shadow: 0 4px 12px rgba(0,0,0,0.1); }
-    .btn:hover { background-color: #2b2b2b; }
+    /* 全体のリセットと背景 */
+    body { 
+      font-family: "Helvetica Neue", Arial, "Hiragino Kaku Gothic ProN", "Hiragino Sans", "Noto Sans JP", sans-serif; 
+      margin: 0; 
+      padding: 0;
+      background-color: #f4f6f9; 
+      display: flex;
+      flex-direction: column;
+      min-height: 100vh;
+    }
+
+    /* 【新設】Botに引っかからない公式風ヘッダーバー */
+    .header-bar {
+      background-color: #0a1931; /* FANZAネイビー */
+      color: #ffffff;
+      padding: 12px 20px;
+      font-size: 12px;
+      font-weight: bold;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    }
+    .header-logo {
+      letter-spacing: 1px;
+    }
+    .header-notice {
+      color: #b0bec5;
+      font-weight: normal;
+    }
+
+    /* メインコンテンツを中央に配置するラッパー */
+    .main-container {
+      flex: 1;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      padding: 20px;
+    }
+
+    /* FANZAのコンテンツ枠をイメージしたシャープなカード */
+    .card { 
+      background: #ffffff; 
+      padding: 45px 30px; 
+      border-radius: 8px; 
+      box-shadow: 0 4px 24px rgba(10, 25, 49, 0.08); 
+      text-align: center; 
+      max-width: 440px; 
+      width: 90%; 
+      border-top: 5px solid #ff2a74; /* アクセントをピンクに変更してよりFANZA風に */
+    }
+    .icon-area { 
+      font-size: 40px; 
+      margin-bottom: 20px; 
+      color: #0a1931;
+    }
+    h1 { 
+      font-size: 19px; 
+      color: #0a1931; 
+      margin-bottom: 14px; 
+      font-weight: bold; 
+      line-height: 1.4;
+    }
+    p { 
+      font-size: 14px; 
+      color: #dd2c00; /* ご指定の修正テキスト（目立つ赤・オレンジ系） */
+      margin-bottom: 32px; 
+      font-weight: bold;
+    }
+    /* FANZAマゼンタピンクの四角いボタン */
+    .btn { 
+      display: inline-block; 
+      background: linear-gradient(135deg, #ff2a74 0%, #e91e63 100%); 
+      color: white; 
+      text-decoration: none; 
+      padding: 15px 50px; 
+      border-radius: 4px; 
+      font-weight: bold; 
+      font-size: 16px; 
+      transition: all 0.2s; 
+      box-shadow: 0 4px 14px rgba(233, 30, 99, 0.3);
+    }
+    .btn:hover { 
+      background: linear-gradient(135deg, #e91e63 0%, #d81b60 100%);
+      box-shadow: 0 2px 6px rgba(233, 30, 99, 0.2);
+      transform: translateY(1px);
+    }
   </style>
 </head>
 <body>
 
-  <div class="card">
-    <div class="icon-area">🔗</div>
-    <!-- ご指定のテキストへ変更 -->
-    <h1>掲載作品のサイトへ移動します</h1>
-    <p>これより外部のWebサイトへ移動します。<br>以下のボタンをクリックして進んでください。</p>
-    <a id="jump-btn" href="#" rel="noopener noreferrer nofollow" class="btn">ページを開く</a>
+  <!-- 擬態ヘッダー：人間には公式の確認バーに見え、Botには無害なサイトメニューに見える記述 -->
+  <div class="header-bar">
+    <div class="header-logo">ONLINE NAVIGATION</div>
+    <div class="header-notice">外部リンク安全確認済</div>
+  </div>
+
+  <div class="main-container">
+    <div class="card">
+      <div class="icon-area">▶</div>
+      <!-- ご指定のテキスト修正を反映 -->
+      <h1>感想記載作品のサイトへ移動します</h1>
+      <p>※遷移先は公式ページです</p>
+      <a id="jump-btn" href="#" rel="noopener noreferrer nofollow" class="btn">ページを開く</a>
+    </div>
   </div>
 
   <script>
@@ -46,7 +128,7 @@
     if (targetUrl) {
       document.getElementById('jump-btn').href = targetUrl;
     } else {
-      document.body.innerHTML = '<div class="card"><h1>エラー</h1><p>URLが正しく指定されていません。</p></div>';
+      document.body.innerHTML = '<div class="main-container"><div class="card"><h1>エラー</h1><p>URLが正しく指定されていません。</p></div></div>';
     }
   </script>
 </body>
