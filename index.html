@@ -12,7 +12,7 @@
   <meta name="twitter:card" content="summary">
   <meta property="og:title" content="詳細を確認する">
   <meta property="og:description" content="感想の作品をチェック">
-  <meta property="og:url" content="https://JumpURL.github.io/【あなたのリポジトリ名】/">
+  <meta property="og:url" content="https://JumpURL.github.io/infoURL/">
 
   <style>
     body { 
@@ -27,7 +27,7 @@
 
     /* 上部ナビゲーションバー（Bot対策） */
     .header-bar {
-      background-color: #0a1931; /* FANZA共通の深いネイビー */
+      background-color: #0a1931; 
       color: #ffffff;
       padding: 12px 20px;
       font-size: 12px;
@@ -64,7 +64,7 @@
       overflow: hidden;
     }
 
-    /* 【修正】FANZA公式のディープ・レッド（#cc0000）を採用したヘッダー */
+    /* ディープ・レッドのヘッダー */
     .card-header-area {
       background-color: #cc0000; 
       color: #ffffff;
@@ -83,7 +83,7 @@
       line-height: 1.4;
     }
 
-    /* 【新設】デザインを完全に統一するための「白抜きフォルダー」アイコン（SVG） */
+    /* 白抜きフォルダーアイコン（SVG） */
     .white-folder-icon {
       width: 20px;
       height: 20px;
@@ -96,22 +96,22 @@
       flex-shrink: 0;
     }
 
-    /* コンテンツエリア（中央の不要なフォルダを削除し、余白を美しく調整） */
+    /* コンテンツエリア */
     .card-body {
       padding: 50px 30px;
     }
     
     p { 
       font-size: 15px; 
-      color: #333333; /* 文字としての読みやすさを重視したダークグレー */
+      color: #333333; 
       margin: 0 0 35px 0; 
       font-weight: bold;
     }
     
-    /* 【修正】ボタンもFANZA公式の情熱的な赤のトーンに準拠 */
+    /* ボタン（公式赤トーン準拠） */
     .btn { 
       display: inline-block; 
-      background: linear-gradient(135deg, #e60000 0%, #b30000 100%); /* 力強い赤のグラデーション */
+      background: linear-gradient(135deg, #e60000 0%, #b30000 100%); 
       color: white; 
       text-decoration: none; 
       padding: 15px 60px; 
@@ -138,16 +138,13 @@
   <div class="main-container">
     <div class="card">
       
-      <!-- ウインドウ上部ヘッダー（テキスト ＋ 自作の白抜きフォルダアイコン） -->
       <div class="card-header-area">
         <h1>感想記載作品のサイトへ移動します</h1>
-        <!-- 白抜きのフォルダーマークを描画するコード -->
         <svg class="white-folder-icon" viewBox="0 0 24 24">
           <path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z"></path>
         </svg>
       </div>
 
-      <!-- 中央エリア：無駄なアイコンを削り、洗練されたレイアウトへ -->
       <div class="card-body">
         <p>※遷移先は公式ページです</p>
         <a id="jump-btn" href="#" rel="noopener noreferrer nofollow" class="btn">ページを開く</a>
