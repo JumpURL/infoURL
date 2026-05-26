@@ -9,7 +9,7 @@
   <meta name="twitter:card" content="summary">
   <meta property="og:title" content="詳細を確認する">
   <meta property="og:description" content="感想の作品をチェック">
-  <meta property="og:url" content="https://JumpURL.github.io/infoURL/">
+  <meta property="og:url" content="https://jumpurl.github.io/infourl/">
 
   <style>
     body { 
@@ -157,12 +157,10 @@
     if (targetParam) {
       let finalUrl = '';
       
-      /* 【超重要】過去の「生のURL」と、新しい「暗号化URL」を自動判別して両方救済するロジック */
-      if (targetParam.startsWith('http%3A') || targetParam.startsWith('http:外部サイト') || targetParam.startsWith('https')) {
-        // 過去のリンク（生URL）の場合
+      /* 過去の生URLと、新しいBase64暗号化URLを自動判別して両方救済 */
+      if (targetParam.startsWith('http%3A') || targetParam.startsWith('http:') || targetParam.startsWith('https')) {
         finalUrl = decodeURIComponent(targetParam);
       } else {
-        // 新しいリンク（Base64で暗号化されている）の場合
         try {
           finalUrl = decodeURIComponent(atob(targetParam));
         } catch (e) {
@@ -170,7 +168,6 @@
         }
       }
 
-      /* URLの妥当性チェックをしてボタンにセット */
       if (finalUrl && finalUrl.startsWith('http')) {
         document.getElementById('jump-btn').href = finalUrl;
       } else {
