@@ -151,23 +151,35 @@
   </div>
 
   <script>
+    /* URLからパラメータを取得 */
     const urlParams = new URLSearchParams(window.location.search);
-    const targetParam = urlParams.get('target');
+    let targetParam = urlParams.get('target');
     
     if (targetParam) {
       let finalUrl = '';
       
-      /* 過去の生URLと、新しいBase64暗号化URLを自動判別して両方救済 */
-      if (targetParam.startsWith('http%3A') || targetParam.startsWith('http:') || targetParam.startsWith('https')) {
-        finalUrl = decodeURIComponent(targetParam);
+      /* 【修正】まずはURL全体のエンコード（%3Aなど）をデコードして綺麗にする */
+      targetParam = decodeURIComponent(targetParam);
+
+      /* 過去の「生のURL」か、新しい「暗号化URL」かを正確に判別 */
+      if (targetParam.startsWith('http://') || targetParam.startsWith('https://')) {
+        // 過去のリンク（生URL）の場合
+        finalUrl = targetParam;
       } else {
+        // 新しいリンク（Base64で暗号化されている）の場合、安全に復号する
         try {
           finalUrl = decodeURIComponent(atob(targetParam));
         } catch (e) {
-          finalUrl = '';
+          // 特殊なエンコードが残っている場合のセーフティ
+          try {
+            finalUrl = atob(targetParam);
+          } catch (err) {
+            finalUrl = '';
+          }
         }
       }
 
+      /* 最終チェックしてボタンに適用 */
       if (finalUrl && finalUrl.startsWith('http')) {
         document.getElementById('jump-btn').href = finalUrl;
       } else {
