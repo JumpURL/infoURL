@@ -105,7 +105,7 @@
       font-weight: bold;
     }
     
-    /* ボタン（公式赤トーン準拠） */
+    /* ボタン */
     .btn { 
       display: inline-block; 
       background: linear-gradient(135deg, #e60000 0%, #b30000 100%); 
@@ -152,29 +152,28 @@
 
   <script>
     const urlParams = new URLSearchParams(window.location.search);
-    let targetParam = urlParams.get('target');
+    const targetParam = urlParams.get('target');
     
     if (targetParam) {
       let finalUrl = '';
       
-      /* URLのエンコード（%3Aなど）をデコード */
-      targetParam = decodeURIComponent(targetParam);
-
-      /* 新旧URLの自動判別 */
+      /* パラメータをシンプルにBase64復号する（生URL・暗号URLを自動判別） */
       if (targetParam.startsWith('http://') || targetParam.startsWith('https://')) {
         finalUrl = targetParam;
       } else {
         try {
-          finalUrl = decodeURIComponent(atob(targetParam));
+          /* 「%」などの混入がない純粋なBase64データをきれいに解読 */
+          finalUrl = atob(targetParam);
         } catch (e) {
           try {
-            finalUrl = atob(targetParam);
+            finalUrl = decodeURIComponent(atob(decodeURIComponent(targetParam)));
           } catch (err) {
             finalUrl = '';
           }
         }
       }
 
+      /* 復号したURLが正しい形式か最終確認 */
       if (finalUrl && finalUrl.startsWith('http')) {
         document.getElementById('jump-btn').href = finalUrl;
       } else {
