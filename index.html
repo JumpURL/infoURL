@@ -22,7 +22,7 @@
       min-height: 100vh;
     }
 
-    /* 上部ナビゲーションバー（ご指定のテキストへ変更） */
+    /* 上部ナビゲーションバー */
     .header-bar {
       background-color: #0a1931; 
       color: #ffffff;
@@ -155,14 +155,25 @@
     const targetParam = urlParams.get('target');
     
     if (targetParam) {
-      try {
-        const decodedUrl = decodeURIComponent(atob(targetParam));
-        if (decodedUrl.startsWith('http')) {
-          document.getElementById('jump-btn').href = decodedUrl;
-        } else {
-          throw new Error('Invalid URL');
+      let finalUrl = '';
+      
+      /* 【超重要】過去の「生のURL」と、新しい「暗号化URL」を自動判別して両方救済するロジック */
+      if (targetParam.startsWith('http%3A') || targetParam.startsWith('http:外部サイト') || targetParam.startsWith('https')) {
+        // 過去のリンク（生URL）の場合
+        finalUrl = decodeURIComponent(targetParam);
+      } else {
+        // 新しいリンク（Base64で暗号化されている）の場合
+        try {
+          finalUrl = decodeURIComponent(atob(targetParam));
+        } catch (e) {
+          finalUrl = '';
         }
-      } catch (e) {
+      }
+
+      /* URLの妥当性チェックをしてボタンにセット */
+      if (finalUrl && finalUrl.startsWith('http')) {
+        document.getElementById('jump-btn').href = finalUrl;
+      } else {
         document.body.innerHTML = '<div class="main-container"><div class="card"><div class="card-header-area"><h1>エラー</h1></div><div class="card-body"><p>URLの解析に失敗しました。</p></div></div></div>';
       }
     } else {
