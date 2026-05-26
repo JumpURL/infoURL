@@ -6,9 +6,6 @@
   <meta name="robots" content="noindex, nofollow">
   <title>外部サイトへの移動確認</title>
 
-  <!-- ==========================================
-       X (Twitter) カード設定：固有キーワード完全排除
-       ========================================== -->
   <meta name="twitter:card" content="summary">
   <meta property="og:title" content="詳細を確認する">
   <meta property="og:description" content="感想の作品をチェック">
@@ -25,7 +22,7 @@
       min-height: 100vh;
     }
 
-    /* 上部ナビゲーションバー（Bot対策） */
+    /* 上部ナビゲーションバー（ご指定のテキストへ変更） */
     .header-bar {
       background-color: #0a1931; 
       color: #ffffff;
@@ -132,7 +129,7 @@
 
   <div class="header-bar">
     <div class="header-logo">ONLINE NAVIGATION</div>
-    <div class="header-notice">外部リンク安全確認済</div>
+    <div class="header-notice">安全なリンク生成</div>
   </div>
 
   <div class="main-container">
@@ -159,17 +156,13 @@
     
     if (targetParam) {
       try {
-        /* 【新設】Base64で暗号化されたURLを安全に復号（元に戻す）処理 */
         const decodedUrl = decodeURIComponent(atob(targetParam));
-        
-        /* 復号したURLが正しい形式（httpから始まる）かチェック */
         if (decodedUrl.startsWith('http')) {
           document.getElementById('jump-btn').href = decodedUrl;
         } else {
           throw new Error('Invalid URL');
         }
       } catch (e) {
-        /* 万が一解読に失敗した場合はエラー画面を表示 */
         document.body.innerHTML = '<div class="main-container"><div class="card"><div class="card-header-area"><h1>エラー</h1></div><div class="card-body"><p>URLの解析に失敗しました。</p></div></div></div>';
       }
     } else {
