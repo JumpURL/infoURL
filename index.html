@@ -178,16 +178,19 @@
 
       if (finalUrl && finalUrl.startsWith('http')) {
         if (finalUrl.includes('dmm.co.jp') || finalUrl.includes('dmm.com')) {
-          // 不要な特定の計測用パラメータを完全にクレンジング
-          finalUrl = finalUrl.replace(/[&?](utm_term|utm_campaign)=[^&]*/g, '');
           
-          // 過去の特定型URLにおけるループ問題を防止して正規化する処理
+          // 1. 先に過去の特定型URLにおける不具合防止と正規化を行う
           if (finalUrl.includes('/doujin/') && finalUrl.includes('tkhr01-001') && !finalUrl.includes('utm_medium')) {
             var cidMatch = finalUrl.match(/cid=(d_[a-zA-Z0-9_]+)/);
             if (cidMatch) {
               finalUrl = 'https://www.dmm.co.jp/dc/doujin/-/detail/=/cid=' + cidMatch[1] + '/?utm_medium=dmm_affiliate&utm_source=tkhr01-001';
             }
           }
+          
+          // 2. 【設計修正】URLの組み立てがすべて完了した「最後」に、不要な計測用パラメータを完全に削ぎ落とす
+          finalUrl = finalUrl.replace(/[&?](utm_term|utm_campaign)=[^&]*/g, '');
+          
+          // 3. パラメータの結合部分の記号を微調整
           finalUrl = finalUrl.replace(/\?&/, '?').replace(/\?$/, '');
         }
 
