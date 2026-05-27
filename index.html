@@ -105,7 +105,7 @@
       font-weight: bold;
     }
     
-    /* ボタン（公式赤トーン準拠） */
+    /* ボタン */
     .btn { 
       display: inline-block; 
       background: linear-gradient(135deg, #e60000 0%, #b30000 100%); 
@@ -162,38 +162,18 @@
         finalUrl = targetParam;
       } else {
         try {
-          finalUrl = decodeURIComponent(escape(atob(targetParam)));
+          finalUrl = atob(targetParam);
         } catch (e) {
           try {
-            finalUrl = atob(targetParam);
+            finalUrl = decodeURIComponent(atob(decodeURIComponent(targetParam)));
           } catch (err) {
-            try {
-              finalUrl = decodeURIComponent(atob(decodeURIComponent(targetParam)));
-            } catch (err2) {
-              finalUrl = '';
-            }
+            finalUrl = '';
           }
         }
       }
 
       if (finalUrl && finalUrl.startsWith('http')) {
-        if (finalUrl.includes('dmm.co.jp') || finalUrl.includes('dmm.com')) {
-          
-          // 1. 先に過去の特定型URLにおける不具合防止と正規化を行う
-          if (finalUrl.includes('/doujin/') && finalUrl.includes('tkhr01-001') && !finalUrl.includes('utm_medium')) {
-            var cidMatch = finalUrl.match(/cid=(d_[a-zA-Z0-9_]+)/);
-            if (cidMatch) {
-              finalUrl = 'https://www.dmm.co.jp/dc/doujin/-/detail/=/cid=' + cidMatch[1] + '/?utm_medium=dmm_affiliate&utm_source=tkhr01-001';
-            }
-          }
-          
-          // 2. 【設計修正】URLの組み立てがすべて完了した「最後」に、不要な計測用パラメータを完全に削ぎ落とす
-          finalUrl = finalUrl.replace(/[&?](utm_term|utm_campaign)=[^&]*/g, '');
-          
-          // 3. パラメータの結合部分の記号を微調整
-          finalUrl = finalUrl.replace(/\?&/, '?').replace(/\?$/, '');
-        }
-
+        // 過去リンク等、すべて加工せず元の判定ロジックのままボタンへ適用
         document.getElementById('jump-btn').href = finalUrl;
       } else {
         document.body.innerHTML = '<div class="main-container"><div class="card"><div class="card-header-area"><h1>エラー</h1></div><div class="card-body"><p>URLの解析に失敗しました。</p></div></div></div>';
