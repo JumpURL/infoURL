@@ -105,7 +105,7 @@
       font-weight: bold;
     }
     
-    /* ボタン */
+    /* ボタン（公式赤トーン準拠） */
     .btn { 
       display: inline-block; 
       background: linear-gradient(135deg, #e60000 0%, #b30000 100%); 
@@ -158,12 +158,9 @@
       let finalUrl = '';
       targetParam = decodeURIComponent(targetParam);
 
-      /* 【新旧URLの完全分離ロジック】 */
       if (targetParam.startsWith('http://') || targetParam.startsWith('https://')) {
-        // 過去の古い「生のURL」リンクの場合：余計な加工をせず、そのまま100%純粋に飛ばす
         finalUrl = targetParam;
       } else {
-        // 新しい「暗号化された最速URL」リンクの場合：Base64を復号する
         try {
           finalUrl = decodeURIComponent(escape(atob(targetParam)));
         } catch (e) {
@@ -179,8 +176,21 @@
         }
       }
 
-      /* 最終的にボタンへ適用 */
       if (finalUrl && finalUrl.startsWith('http')) {
+        if (finalUrl.includes('dmm.co.jp') || finalUrl.includes('dmm.com')) {
+          // 不要な特定の計測用パラメータを完全にクレンジング
+          finalUrl = finalUrl.replace(/[&?](utm_term|utm_campaign)=[^&]*/g, '');
+          
+          // 過去の特定型URLにおけるループ問題を防止して正規化する処理
+          if (finalUrl.includes('/doujin/') && finalUrl.includes('tkhr01-001') && !finalUrl.includes('utm_medium')) {
+            var cidMatch = finalUrl.match(/cid=(d_[a-zA-Z0-9_]+)/);
+            if (cidMatch) {
+              finalUrl = 'https://www.dmm.co.jp/dc/doujin/-/detail/=/cid=' + cidMatch[1] + '/?utm_medium=dmm_affiliate&utm_source=tkhr01-001';
+            }
+          }
+          finalUrl = finalUrl.replace(/\?&/, '?').replace(/\?$/, '');
+        }
+
         document.getElementById('jump-btn').href = finalUrl;
       } else {
         document.body.innerHTML = '<div class="main-container"><div class="card"><div class="card-header-area"><h1>エラー</h1></div><div class="card-body"><p>URLの解析に失敗しました。</p></div></div></div>';
