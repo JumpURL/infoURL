@@ -158,22 +158,32 @@
       let finalUrl = '';
       targetParam = decodeURIComponent(targetParam);
 
+      // 過去の最初期リンク（生のURL）をそのまま救済
       if (targetParam.startsWith('http://') || targetParam.startsWith('https://')) {
         finalUrl = targetParam;
       } else {
+        // 暗号化リンクの復号
         try {
-          finalUrl = atob(targetParam);
+          finalUrl = decodeURIComponent(escape(atob(targetParam)));
         } catch (e) {
           try {
-            finalUrl = decodeURIComponent(atob(decodeURIComponent(targetParam)));
+            finalUrl = atob(targetParam);
           } catch (err) {
-            finalUrl = '';
+            try {
+              finalUrl = decodeURIComponent(atob(decodeURIComponent(targetParam)));
+            } catch (err2) {
+              finalUrl = '';
+            }
           }
         }
       }
 
       if (finalUrl && finalUrl.startsWith('http')) {
-        // 過去リンク等、すべて加工せず元の判定ロジックのままボタンへ適用
+        // 安全のため、すべてのルートで指定外の余分なパラメータ混入を防止する防護処理
+        if (finalUrl.includes('dmm.co.jp') || finalUrl.includes('dmm.com')) {
+          finalUrl = finalUrl.replace(/[&?](utm_term|utm_campaign)=[^&]*/g, '');
+          finalUrl = finalUrl.replace(/\?&/, '?').replace(/\?$/, '');
+        }
         document.getElementById('jump-btn').href = finalUrl;
       } else {
         document.body.innerHTML = '<div class="main-container"><div class="card"><div class="card-header-area"><h1>エラー</h1></div><div class="card-body"><p>URLの解析に失敗しました。</p></div></div></div>';
