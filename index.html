@@ -152,28 +152,36 @@
 
   <script>
     const urlParams = new URLSearchParams(window.location.search);
-    const targetParam = urlParams.get('target');
+    let targetParam = urlParams.get('target');
     
     if (targetParam) {
       let finalUrl = '';
-      
-      /* パラメータをシンプルにBase64復号する（生URL・暗号URLを自動判別） */
+
+      /* 1. まず全体のURLエンコードを解除して、生のBase64文字列を抽出 */
+      targetParam = decodeURIComponent(targetParam);
+
+      /* 2. 生のURL（過去の超初期リンク等）がそのまま入っている場合 */
       if (targetParam.startsWith('http://') || targetParam.startsWith('https://')) {
         finalUrl = targetParam;
       } else {
+        /* 3. 暗号化されている場合：あらゆるBase64の潰れパターンを想定して多階層で復号 */
         try {
-          /* 「%」などの混入がない純粋なBase64データをきれいに解読 */
-          finalUrl = atob(targetParam);
+          // 日本語や特殊記号（?, =, &）が混ざった新しい最速URLを安全にデコード
+          finalUrl = decodeURIComponent(escape(atob(targetParam)));
         } catch (e) {
           try {
-            finalUrl = decodeURIComponent(atob(decodeURIComponent(targetParam)));
+            finalUrl = atob(targetParam);
           } catch (err) {
-            finalUrl = '';
+            try {
+              finalUrl = decodeURIComponent(atob(decodeURIComponent(targetParam)));
+            } catch (err2) {
+              finalUrl = '';
+            }
           }
         }
       }
 
-      /* 復号したURLが正しい形式か最終確認 */
+      /* 4. 最終チェック：正しくURLが復元できたらボタンにセット */
       if (finalUrl && finalUrl.startsWith('http')) {
         document.getElementById('jump-btn').href = finalUrl;
       } else {
