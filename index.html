@@ -156,17 +156,15 @@
     
     if (targetParam) {
       let finalUrl = '';
-
-      /* 1. まず全体のURLエンコードを解除して、生のBase64文字列を抽出 */
       targetParam = decodeURIComponent(targetParam);
 
-      /* 2. 生のURL（過去の超初期リンク等）がそのまま入っている場合 */
+      /* 【新旧URLの完全分離ロジック】 */
       if (targetParam.startsWith('http://') || targetParam.startsWith('https://')) {
+        // 過去の古い「生のURL」リンクの場合：余計な加工をせず、そのまま100%純粋に飛ばす
         finalUrl = targetParam;
       } else {
-        /* 3. 暗号化されている場合：あらゆるBase64の潰れパターンを想定して多階層で復号 */
+        // 新しい「暗号化された最速URL」リンクの場合：Base64を復号する
         try {
-          // 日本語や特殊記号（?, =, &）が混ざった新しい最速URLを安全にデコード
           finalUrl = decodeURIComponent(escape(atob(targetParam)));
         } catch (e) {
           try {
@@ -181,7 +179,7 @@
         }
       }
 
-      /* 4. 最終チェック：正しくURLが復元できたらボタンにセット */
+      /* 最終的にボタンへ適用 */
       if (finalUrl && finalUrl.startsWith('http')) {
         document.getElementById('jump-btn').href = finalUrl;
       } else {
