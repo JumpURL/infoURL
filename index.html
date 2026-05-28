@@ -5,191 +5,54 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta name="robots" content="noindex, nofollow">
   <title>外部サイトへの移動確認</title>
-
   <meta name="twitter:card" content="summary">
   <meta property="og:title" content="詳細を確認する">
   <meta property="og:description" content="感想の作品をチェック">
   <meta property="og:url" content="https://jumpurl.github.io/infourl/">
-
   <style>
-    body { 
-      font-family: "Helvetica Neue", Arial, "Hiragino Kaku Gothic ProN", "Hiragino Sans", "Noto Sans JP", sans-serif; 
-      margin: 0; 
-      padding: 0;
-      background-color: #f4f6f9; 
-      display: flex;
-      flex-direction: column;
-      min-height: 100vh;
-    }
-
-    /* 上部ナビゲーションバー */
-    .header-bar {
-      background-color: #0a1931; 
-      color: #ffffff;
-      padding: 12px 20px;
-      font-size: 12px;
-      font-weight: bold;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      box-shadow: 0 2px 4px rgba(0,0,0,0.1);
-    }
-    .header-logo {
-      letter-spacing: 1px;
-    }
-    .header-notice {
-      color: #b0bec5;
-      font-weight: normal;
-    }
-
-    .main-container {
-      flex: 1;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      padding: 20px;
-    }
-
-    /* ウインドウ本体 */
-    .card { 
-      background: #ffffff; 
-      border-radius: 6px; 
-      box-shadow: 0 4px 24px rgba(10, 25, 49, 0.1); 
-      text-align: center; 
-      max-width: 440px; 
-      width: 90%; 
-      overflow: hidden;
-    }
-
-    /* ディープ・レッドのヘッダー */
-    .card-header-area {
-      background-color: #cc0000; 
-      color: #ffffff;
-      padding: 16px 20px;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      gap: 12px; 
-    }
-
-    .card-header-area h1 {
-      font-size: 16px; 
-      color: #ffffff; 
-      margin: 0;
-      font-weight: bold; 
-      line-height: 1.4;
-    }
-
-    /* 白抜きフォルダーアイコン（SVG） */
-    .white-folder-icon {
-      width: 20px;
-      height: 20px;
-      fill: none;
-      stroke: #ffffff;
-      stroke-width: 2;
-      stroke-linecap: round;
-      stroke-linejoin: round;
-      display: inline-block;
-      flex-shrink: 0;
-    }
-
-    /* コンテンツエリア */
-    .card-body {
-      padding: 50px 30px;
-    }
-    
-    p { 
-      font-size: 15px; 
-      color: #333333; 
-      margin: 0 0 35px 0; 
-      font-weight: bold;
-    }
-    
-    /* ボタン */
-    .btn { 
-      display: inline-block; 
-      background: linear-gradient(135deg, #e60000 0%, #b30000 100%); 
-      color: white; 
-      text-decoration: none; 
-      padding: 15px 60px; 
-      border-radius: 4px; 
-      font-weight: bold; 
-      font-size: 16px; 
-      transition: all 0.2s; 
-      box-shadow: 0 4px 14px rgba(204, 0, 0, 0.3);
-    }
-    .btn:hover { 
-      background: linear-gradient(135deg, #b30000 0%, #990000 100%);
-      box-shadow: 0 2px 6px rgba(204, 0, 0, 0.2);
-      transform: translateY(1px);
-    }
+    body { font-family: sans-serif; margin: 0; padding: 0; background-color: #f4f6f9; display: flex; flex-direction: column; min-height: 100vh; }
+    .header-bar { background-color: #0a1931; color: #ffffff; padding: 12px 20px; font-size: 12px; font-weight: bold; display: flex; justify-content: space-between; align-items: center; }
+    .main-container { flex: 1; display: flex; justify-content: center; align-items: center; padding: 20px; }
+    .card { background: #ffffff; border-radius: 6px; box-shadow: 0 4px 24px rgba(10, 25, 49, 0.1); text-align: center; max-width: 440px; width: 90%; overflow: hidden; }
+    .card-header-area { background-color: #cc0000; color: #ffffff; padding: 16px 20px; }
+    .card-header-area h1 { font-size: 16px; margin: 0; font-weight: bold; }
+    .card-body { padding: 50px 30px; }
+    p { font-size: 15px; color: #333333; margin: 0 0 35px 0; font-weight: bold; }
+    .btn { display: inline-block; background: linear-gradient(135deg, #e60000 0%, #b30000 100%); color: white; text-decoration: none; padding: 15px 60px; border-radius: 4px; font-weight: bold; font-size: 16px; }
   </style>
 </head>
 <body>
-
-  <div class="header-bar">
-    <div class="header-logo">ONLINE NAVIGATION</div>
-    <div class="header-notice">安全なリンク生成</div>
-  </div>
-
+  <div class="header-bar"><div class="header-logo">ONLINE NAVIGATION</div></div>
   <div class="main-container">
     <div class="card">
-      
-      <div class="card-header-area">
-        <h1>感想記載作品のサイトへ移動します</h1>
-        <svg class="white-folder-icon" viewBox="0 0 24 24">
-          <path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z"></path>
-        </svg>
-      </div>
-
+      <div class="card-header-area"><h1>感想記載作品のサイトへ移動します</h1></div>
       <div class="card-body">
         <p>※遷移先は公式ページです</p>
-        <a id="jump-btn" href="#" rel="noopener noreferrer nofollow" class="btn">ページを開く</a>
+        <a id="jump-btn" href="#" rel="opened" class="btn">ページを開く</a>
       </div>
-
     </div>
   </div>
-
   <script>
     const urlParams = new URLSearchParams(window.location.search);
     let targetParam = urlParams.get('target');
-    
     if (targetParam) {
       let finalUrl = '';
       targetParam = decodeURIComponent(targetParam);
-
-      // 過去の最初期リンク（生のURL）をそのまま救済
       if (targetParam.startsWith('http://') || targetParam.startsWith('https://')) {
         finalUrl = targetParam;
       } else {
-        // 暗号化リンクの復号
-        try {
-          finalUrl = decodeURIComponent(escape(atob(targetParam)));
-        } catch (e) {
-          try {
-            finalUrl = atob(targetParam);
-          } catch (err) {
-            try {
-              finalUrl = decodeURIComponent(atob(decodeURIComponent(targetParam)));
-            } catch (err2) {
-              finalUrl = '';
-            }
-          }
+        try { finalUrl = atob(targetParam); } catch (e) {
+          try { finalUrl = decodeURIComponent(atob(decodeURIComponent(targetParam))); } catch (err) { finalUrl = ''; }
         }
       }
-
       if (finalUrl && finalUrl.startsWith('http')) {
-        // 安全のため、すべてのルートで指定外の余分なパラメータ混入を防止する防護処理
-        if (finalUrl.includes('dmm.co.jp') || finalUrl.includes('dmm.com')) {
-          finalUrl = finalUrl.replace(/[&?](utm_term|utm_campaign)=[^&]*/g, '');
-          finalUrl = finalUrl.replace(/\?&/, '?').replace(/\?$/, '');
-        }
+        // 余計なクレンジング（文字置換）を一切行わず、そのままDMM公式の計測ルートへ引き渡す
         document.getElementById('jump-btn').href = finalUrl;
       } else {
-        document.body.innerHTML = '<div class="main-container"><div class="card"><div class="card-header-area"><h1>エラー</h1></div><div class="card-body"><p>URLの解析に失敗しました。</p></div></div></div>';
+        document.body.innerHTML = '<p>エラー: URLの解析に失敗しました。</p>';
       }
     } else {
-      document.body.innerHTML = '<div class="main-container"><div class="card"><div class="card-header-area"><h1>エラー</h1></div><div class="card-body"><p>URLが正しく指定されていません。</p></div></div></div>';
+      document.body.innerHTML = '<p>エラー: URLが指定されていません。</p>';
     }
   </script>
 </body>
