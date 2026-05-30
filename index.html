@@ -3,58 +3,85 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta name="robots" content="noindex, nofollow">
+  <meta name="robots" content="noindex,nofollow">
   <title>外部サイトへの移動確認</title>
   <meta name="twitter:card" content="summary">
   <meta property="og:title" content="詳細を確認する">
   <meta property="og:description" content="感想の作品をチェック">
-  <meta property="og:url" content="https://jumpurl.github.io/infourl/">
   <style>
-    body { font-family: sans-serif; margin: 0; padding: 0; background-color: #f4f6f9; display: flex; flex-direction: column; min-height: 100vh; }
-    .header-bar { background-color: #0a1931; color: #ffffff; padding: 12px 20px; font-size: 12px; font-weight: bold; display: flex; justify-content: space-between; align-items: center; }
-    .main-container { flex: 1; display: flex; justify-content: center; align-items: center; padding: 20px; }
-    .card { background: #ffffff; border-radius: 6px; box-shadow: 0 4px 24px rgba(10, 25, 49, 0.1); text-align: center; max-width: 440px; width: 90%; overflow: hidden; }
-    .card-header-area { background-color: #cc0000; color: #ffffff; padding: 16px 20px; }
-    .card-header-area h1 { font-size: 16px; margin: 0; font-weight: bold; }
-    .card-body { padding: 50px 30px; }
-    p { font-size: 15px; color: #333333; margin: 0 0 35px 0; font-weight: bold; }
-    .btn { display: inline-block; background: linear-gradient(135deg, #e60000 0%, #b30000 100%); color: white; text-decoration: none; padding: 15px 60px; border-radius: 4px; font-weight: bold; font-size: 16px; }
+    body{ font-family:sans-serif; margin:0; padding:0; background:#f4f6f9; display:flex; justify-content:center; align-items:center; min-height:100vh; }
+    .card{ background:#fff; border-radius:8px; padding:40px; box-shadow:0 4px 24px rgba(0,0,0,.1); text-align:center; max-width:480px; width:90%; }
+    .btn{ display:inline-block; padding:15px 50px; background:#cc0000; color:#fff; text-decoration:none; border-radius:4px; font-weight:bold; }
   </style>
 </head>
 <body>
-  <div class="header-bar"><div class="header-logo">ONLINE NAVIGATION</div></div>
-  <div class="main-container">
-    <div class="card">
-      <div class="card-header-area"><h1>感想記載作品のサイトへ移動します</h1></div>
-      <div class="card-body">
-        <p>※遷移先は公式ページです</p>
-        <a id="jump-btn" href="#" rel="opened" class="btn">ページを開く</a>
-      </div>
-    </div>
+  <div class="card">
+    <h2>感想記載作品のサイトへ移動します</h2>
+    <p>遷移先は公式ページです</p>
+    <a id="jump-btn" class="btn" href="#">ページを開く</a>
   </div>
   <script>
-    const urlParams = new URLSearchParams(window.location.search);
-    let targetParam = urlParams.get('target');
-    if (targetParam) {
-      let finalUrl = '';
-      targetParam = decodeURIComponent(targetParam);
-      if (targetParam.startsWith('http://') || targetParam.startsWith('https://')) {
-        finalUrl = targetParam;
-      } else {
-        try { finalUrl = atob(targetParam); } catch (e) {
-          try { finalUrl = decodeURIComponent(atob(decodeURIComponent(targetParam))); } catch (err) { finalUrl = ''; }
+    const AF_ID = "tkhr01-001";
+    const params = new URLSearchParams(window.location.search);
+    let finalUrl = "";
+
+    if (params.has("target")) {
+      try {
+        let target = decodeURIComponent(params.get("target"));
+        if (target.startsWith("http://") || target.startsWith("https://")) {
+          finalUrl = target;
+        } else {
+          try { finalUrl = atob(target); } catch (e) {
+            try { finalUrl = decodeURIComponent(atob(decodeURIComponent(target))); } catch (err) { finalUrl = ''; }
+          }
         }
-      }
-      if (finalUrl && finalUrl.startsWith('http')) {
-        if (finalUrl.includes('affiliate_toolbar')) {
-          finalUrl = finalUrl.split('&utm_term=')[0];
+        if (finalUrl.includes("al.fanza.co.jp") || finalUrl.includes("al.dmm.co.jp")) {
+          finalUrl = finalUrl.replace("ch=api", "ch=toolbar");
         }
-        document.getElementById('jump-btn').href = finalUrl;
-      } else {
-        document.body.innerHTML = '<p>エラー: URLの解析に失敗しました。</p>';
+      } catch(e) {
+        console.error(e);
       }
-    } else {
-      document.body.innerHTML = '<p>エラー: URLが指定されていません。</p>';
+    } 
+    else if (params.has("type")) {
+      const type = params.get("type");
+      const cid = params.get("cid");
+      const id = params.get("id");
+
+      if (!cid) {
+        document.body.innerHTML = "<h2>CID不足</h2>";
+        throw new Error("cid missing");
+      }
+      if (!/^[a-zA-Z0-9_-]+$/.test(cid)) {
+        document.body.innerHTML = "<h2>CIDエラー</h2>";
+        throw new Error("cid invalid");
+      }
+      if (id && !/^\d+$/.test(id)) {
+        document.body.innerHTML = "<h2>IDエラー</h2>";
+        throw new Error("id invalid");
+      }
+
+      switch(type) {
+        case "doujin": {
+          const rawUrl = "https://www.dmm.co.jp/dc/doujin/-/detail/=/cid=" + cid + "/";
+          finalUrl = "https://al.fanza.co.jp/?lurl=" + encodeURIComponent(rawUrl) + "&af_id=" + AF_ID + "&ch=toolbar&ch_id=link";
+          break;
+        }
+        case "books": {
+          if (!id) {
+            document.body.innerHTML = "<h2>Books ID不足</h2>";
+            throw new Error("id missing");
+          }
+          const rawUrl = "https://book.dmm.co.jp/product/" + id + "/" + cid + "/";
+          finalUrl = "https://al.fanza.co.jp/?lurl=" + encodeURIComponent(rawUrl) + "&af_id=" + AF_ID + "&ch=toolbar&ch_id=link";
+          break;
+        }
+        default:
+          document.body.innerHTML = "<h2>未対応タイプ</h2>";
+      }
+    }
+
+    if (finalUrl && finalUrl.startsWith("http")) {
+      document.getElementById("jump-btn").href = finalUrl;
     }
   </script>
 </body>
