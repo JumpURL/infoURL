@@ -3,22 +3,34 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta name="robots" content="noindex,nofollow">
+  <meta name="robots" content="noindex, nofollow">
   <title>外部サイトへの移動確認</title>
   <meta name="twitter:card" content="summary">
   <meta property="og:title" content="詳細を確認する">
   <meta property="og:description" content="感想の作品をチェック">
+  <meta property="og:url" content="https://jumpurl.github.io/infoURL/">
   <style>
-    body{ font-family:sans-serif; margin:0; padding:0; background:#f4f6f9; display:flex; justify-content:center; align-items:center; min-height:100vh; }
-    .card{ background:#fff; border-radius:8px; padding:40px; box-shadow:0 4px 24px rgba(0,0,0,.1); text-align:center; max-width:480px; width:90%; }
-    .btn{ display:inline-block; padding:15px 50px; background:#cc0000; color:#fff; text-decoration:none; border-radius:4px; font-weight:bold; }
+    body { font-family: sans-serif; margin: 0; padding: 0; background-color: #f4f6f9; display: flex; flex-direction: column; min-height: 100vh; }
+    .header-bar { background-color: #0a1931; color: #ffffff; padding: 12px 20px; font-size: 12px; font-weight: bold; display: flex; justify-content: space-between; align-items: center; }
+    .main-container { flex: 1; display: flex; justify-content: center; align-items: center; padding: 20px; }
+    .card { background: #ffffff; border-radius: 6px; box-shadow: 0 4px 24px rgba(10, 25, 49, 0.1); text-align: center; max-width: 440px; width: 90%; overflow: hidden; }
+    .card-header-area { background-color: #cc0000; color: #ffffff; padding: 16px 20px; }
+    .card-header-area h1 { font-size: 16px; margin: 0; font-weight: bold; }
+    .card-body { padding: 50px 30px; }
+    p { font-size: 15px; color: #333333; margin: 0 0 35px 0; font-weight: bold; }
+    .btn { display: inline-block; background: linear-gradient(135deg, #e60000 0%, #b30000 100%); color: white; text-decoration: none; padding: 15px 60px; border-radius: 4px; font-weight: bold; font-size: 16px; }
   </style>
 </head>
 <body>
-  <div class="card">
-    <h2>感想記載作品のサイトへ移動します</h2>
-    <p>遷移先は公式ページです</p>
-    <a id="jump-btn" class="btn" href="#">ページを開く</a>
+  <div class="header-bar"><div class="header-logo">ONLINE NAVIGATION</div></div>
+  <div class="main-container">
+    <div class="card">
+      <div class="card-header-area"><h1>感想記載作品のサイトへ移動します</h1></div>
+      <div class="card-body">
+        <p>※遷移先は公式ページです</p>
+        <a id="jump-btn" href="#" class="btn">ページを開く</a>
+      </div>
+    </div>
   </div>
   <script>
     const AF_ID = "tkhr01-001";
@@ -48,15 +60,15 @@
       const id = params.get("id");
 
       if (!cid) {
-        document.body.innerHTML = "<h2>CID不足</h2>";
+        document.querySelector('.card-body').innerHTML = "<p>エラー: CIDが不足しています。</p>";
         throw new Error("cid missing");
       }
       if (!/^[a-zA-Z0-9_-]+$/.test(cid)) {
-        document.body.innerHTML = "<h2>CIDエラー</h2>";
+        document.querySelector('.card-body').innerHTML = "<p>エラー: 無効なCID形式です。</p>";
         throw new Error("cid invalid");
       }
       if (id && !/^\d+$/.test(id)) {
-        document.body.innerHTML = "<h2>IDエラー</h2>";
+        document.querySelector('.card-body').innerHTML = "<p>エラー: 無効なID形式です。</p>";
         throw new Error("id invalid");
       }
 
@@ -68,7 +80,7 @@
         }
         case "books": {
           if (!id) {
-            document.body.innerHTML = "<h2>Books ID不足</h2>";
+            document.querySelector('.card-body').innerHTML = "<p>エラー: Books IDが不足しています。</p>";
             throw new Error("id missing");
           }
           const rawUrl = "https://book.dmm.co.jp/product/" + id + "/" + cid + "/";
@@ -76,12 +88,14 @@
           break;
         }
         default:
-          document.body.innerHTML = "<h2>未対応タイプ</h2>";
+          document.querySelector('.card-body').innerHTML = "<p>エラー: 未対応のフロアタイプです。</p>";
       }
     }
 
     if (finalUrl && finalUrl.startsWith("http")) {
       document.getElementById("jump-btn").href = finalUrl;
+    } else {
+      document.querySelector('.card-body').innerHTML = "<p>エラー: URLの解析に失敗しました。</p>";
     }
   </script>
 </body>
