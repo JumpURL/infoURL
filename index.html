@@ -46,7 +46,9 @@
         }
       }
       if (finalUrl && finalUrl.startsWith('http')) {
-        // 余計なクレンジング（文字置換）を一切行わず、そのままDMM公式の計測ルートへ引き渡す
+        if (finalUrl.includes('affiliate_toolbar')) {
+          finalUrl = finalUrl.split('&utm_term=')[0];
+        }
         document.getElementById('jump-btn').href = finalUrl;
       } else {
         document.body.innerHTML = '<p>エラー: URLの解析に失敗しました。</p>';
